@@ -1,7 +1,7 @@
 package model
 
 import (
-	"diary_api/database"
+	"test_api/database"
 
 	"gorm.io/gorm"
 )

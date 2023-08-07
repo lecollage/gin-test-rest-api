@@ -1,12 +1,12 @@
 package helper
 
 import (
-	"diary_api/model"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"test_api/model"
 	"time"
 
 	"github.com/gin-gonic/gin"

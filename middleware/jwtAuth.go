@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"diary_api/helper"
 	"fmt"
 	"net/http"
+	"test_api/helper"
 
 	"github.com/gin-gonic/gin"
 )

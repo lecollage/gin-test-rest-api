@@ -1,12 +1,12 @@
 package main
 
 import (
-	"diary_api/controller"
-	"diary_api/database"
-	"diary_api/middleware"
-	"diary_api/model"
 	"fmt"
 	"log"
+	"test_api/controller"
+	"test_api/database"
+	"test_api/middleware"
+	"test_api/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"

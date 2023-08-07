@@ -1,9 +1,9 @@
 package model
 
 import (
-	"diary_api/database"
 	"html"
 	"strings"
+	"test_api/database"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

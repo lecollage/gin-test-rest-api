@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"diary_api/helper"
-	"diary_api/model"
 	"net/http"
+	"test_api/helper"
+	"test_api/model"
 
 	"github.com/gin-gonic/gin"
 )
