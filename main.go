@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"test_api/controller"
 	"test_api/database"
 	"test_api/middleware"
@@ -33,10 +34,24 @@ func loadDatabase() {
 }
 
 func serveApplication() {
-	//gin.SetMode(gin.Default)
-	//router := gin.New()
+	mode := os.Getenv("MODE")
 
-	router := gin.Default()
+	var router *gin.Engine
+
+	//DEV
+	if mode == "DEV" {
+		router = gin.Default()
+	}
+
+	// PROD
+	if mode == "PROD" {
+		gin.SetMode(gin.ReleaseMode)
+		router = gin.New()
+	}
+
+	if router == nil {
+		panic("MODE is not correct")
+	}
 
 	helloRoutes := router.Group("/app/test")
 	helloRoutes.GET("/hello", controller.Hello)
