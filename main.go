@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	fmt.Println("START")
 	loadEnv()
 	loadDatabase()
 	serveApplication()
@@ -32,13 +33,21 @@ func loadDatabase() {
 }
 
 func serveApplication() {
+	//gin.SetMode(gin.Default)
+	//router := gin.New()
+
 	router := gin.Default()
 
-	publicRoutes := router.Group("/auth")
+	helloRoutes := router.Group("/app/test")
+	helloRoutes.GET("/hello", controller.Hello)
+	helloRoutes.GET("/ping", controller.Ping)
+	helloRoutes.GET("/sleep", controller.Sleep)
+
+	publicRoutes := router.Group("/app/auth")
 	publicRoutes.POST("/register", controller.Register)
 	publicRoutes.POST("/login", controller.Login)
 
-	protectedRoutes := router.Group("/api")
+	protectedRoutes := router.Group("/app/api")
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
 	protectedRoutes.GET("/entries/:id", controller.GetEntryById)
 	protectedRoutes.GET("/entries", controller.GetAllEntries)
