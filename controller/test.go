@@ -17,7 +17,8 @@ func Ping(context *gin.Context) {
 }
 
 func Sleep(context *gin.Context) {
-	errBadParam := struct{ error string }{error: "Bad param"}
+	errBadParam := make(gin.H)
+	errBadParam["error"] = "Bad param"
 
 	_, ok := context.Request.URL.Query()["s"]
 
