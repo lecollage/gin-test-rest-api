@@ -40,6 +40,7 @@ func serveApplication() {
 
 	//DEV
 	if mode == "DEV" {
+		gin.SetMode(gin.DebugMode)
 		router = gin.Default()
 	}
 
@@ -57,6 +58,8 @@ func serveApplication() {
 	helloRoutes.GET("/hello", controller.Hello)
 	helloRoutes.GET("/ping", controller.Ping)
 	helloRoutes.GET("/sleep", controller.Sleep)
+	helloRoutes.GET("/cpu-load-sync", controller.CpuLoadSync)
+	helloRoutes.GET("/cpu-load-async", controller.CpuLoadAsync)
 
 	publicRoutes := router.Group("/app/auth")
 	publicRoutes.POST("/register", controller.Register)
