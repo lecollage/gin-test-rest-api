@@ -1,4 +1,4 @@
-package database
+package resources
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 var Database *gorm.DB
 
-func Connect() {
+func DBConnect() {
 	var err error
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -24,6 +24,6 @@ func Connect() {
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("Successfully connected to the database")
+		fmt.Println("Successfully connected to the resources")
 	}
 }

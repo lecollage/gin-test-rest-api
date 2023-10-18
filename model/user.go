@@ -3,7 +3,7 @@ package model
 import (
 	"html"
 	"strings"
-	"test_api/database"
+	"test_api/resources"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -17,7 +17,7 @@ type User struct {
 }
 
 func (user *User) Save() (*User, error) {
-	err := database.Database.Create(&user).Error
+	err := resources.Database.Create(&user).Error
 	if err != nil {
 		return &User{}, err
 	}
@@ -41,7 +41,7 @@ func (user *User) ValidatePassword(password string) error {
 
 func FindUserByUsername(username string) (User, error) {
 	var user User
-	err := database.Database.Where("username=?", username).Find(&user).Error
+	err := resources.Database.Where("username=?", username).Find(&user).Error
 	if err != nil {
 		return User{}, err
 	}
@@ -50,7 +50,7 @@ func FindUserByUsername(username string) (User, error) {
 
 func FindUserById(id uint) (User, error) {
 	var user User
-	err := database.Database.Preload("Entries").Where("ID=?", id).Find(&user).Error
+	err := resources.Database.Preload("Entries").Where("ID=?", id).Find(&user).Error
 	if err != nil {
 		return User{}, err
 	}

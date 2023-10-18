@@ -2,9 +2,9 @@ package controller
 
 import (
 	"net/http"
-	"test_api/database"
 	"test_api/helper"
 	"test_api/model"
+	"test_api/resources"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,9 +47,22 @@ func GetAllEntries(context *gin.Context) {
 
 func FindEntryById(id string) (model.Entry, error) {
 	var entry model.Entry
-	err := database.Database.Model(&model.Entry{}).Where("id=?", id).Find(&entry).Error
+	err := resources.Database.Model(&model.Entry{}).Where("id=?", id).Find(&entry).Error
 
 	return entry, err
+}
+
+func GetTestEntryById(context *gin.Context) {
+	// get entry data
+	id := context.Param("id")
+	entry, errEntry := FindEntryById(id)
+
+	if errEntry != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": errEntry.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": entry})
 }
 
 func GetEntryById(context *gin.Context) {
@@ -103,7 +116,7 @@ func UpdateEntry(context *gin.Context) {
 		return
 	}
 
-	errEntry := database.Database.Model(&model.Entry{}).Where("id=?", id).Omit("user_id").Updates(input).Error
+	errEntry := resources.Database.Model(&model.Entry{}).Where("id=?", id).Omit("user_id").Updates(input).Error
 
 	if errEntry != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": errEntry.Error()})
@@ -111,7 +124,7 @@ func UpdateEntry(context *gin.Context) {
 	}
 
 	var updatedEntry model.Entry
-	errEntry = database.Database.Model(&model.Entry{}).Where("id=?", id).Find(&updatedEntry).Error
+	errEntry = resources.Database.Model(&model.Entry{}).Where("id=?", id).Find(&updatedEntry).Error
 
 	if errEntry != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": errEntry.Error()})
@@ -135,7 +148,7 @@ func DeleteEntry(context *gin.Context) {
 
 	var entry model.Entry
 
-	errEntry := database.Database.Model(&model.Entry{}).Where("id=?", id).Delete(&entry).Error
+	errEntry := resources.Database.Model(&model.Entry{}).Where("id=?", id).Delete(&entry).Error
 
 	if errEntry != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": errEntry.Error()})

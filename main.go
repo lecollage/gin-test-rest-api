@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 	"test_api/controller"
-	"test_api/database"
 	"test_api/middleware"
 	"test_api/model"
+	"test_api/resources"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -17,7 +17,12 @@ func main() {
 	fmt.Println("START")
 	loadEnv()
 	loadDatabase()
+	loadCache()
 	serveApplication()
+}
+
+func loadCache() {
+	resources.RedisConnect()
 }
 
 func loadEnv() {
@@ -28,9 +33,9 @@ func loadEnv() {
 }
 
 func loadDatabase() {
-	database.Connect()
-	database.Database.AutoMigrate(&model.User{})
-	database.Database.AutoMigrate(&model.Entry{})
+	resources.DBConnect()
+	resources.Database.AutoMigrate(&model.User{})
+	resources.Database.AutoMigrate(&model.Entry{})
 }
 
 func serveApplication() {
@@ -60,6 +65,7 @@ func serveApplication() {
 	helloRoutes.GET("/sleep", controller.Sleep)
 	helloRoutes.GET("/cpu-load-sync", controller.CpuLoadSync)
 	helloRoutes.GET("/cpu-load-async", controller.CpuLoadAsync)
+	helloRoutes.GET("/entries/:id", controller.GetTestEntryById)
 
 	publicRoutes := router.Group("/app/auth")
 	publicRoutes.POST("/register", controller.Register)

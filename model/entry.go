@@ -1,7 +1,7 @@
 package model
 
 import (
-	"test_api/database"
+	"test_api/resources"
 
 	"gorm.io/gorm"
 )
@@ -13,7 +13,7 @@ type Entry struct {
 }
 
 func (entry *Entry) Save() (*Entry, error) {
-	err := database.Database.Create(&entry).Error
+	err := resources.Database.Create(&entry).Error
 	if err != nil {
 		return &Entry{}, err
 	}
